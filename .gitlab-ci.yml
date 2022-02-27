@@ -1,0 +1,23 @@
+image: python:latest
+
+before_script:
+  - python --version
+  - python -m pip install --upgrade pip
+  - pip install -r requirements.txt
+  - pip install flake8
+
+
+stages:
+  - Lint
+  - Test
+
+flake8:
+  stage: Lint
+  script:
+  - flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+  - flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+test:
+  stage: Test
+  script:
+  - python -m unittest -v
