@@ -54,5 +54,12 @@ def update_post(post_id: int, post: PostUpdate):
         return db_post
 
 
-# Code below omitted 👇
-
+@router.delete("/{post_id}")
+def delete_post(post_id: int):
+    with Session(engine) as session:
+        post = session.get(Post, post_id)
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        session.delete(post)
+        session.commit()
+        return {"ok": True}
