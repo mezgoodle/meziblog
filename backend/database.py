@@ -8,11 +8,12 @@ class PostBase(SQLModel):
     title: str = Field(index=True)
     author_name: Optional[str] = Field(default='mezgoodle')
     body: str
-
+    
 
 class Post(PostBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     created_at: Optional[datetime] = Field(default=datetime.utcnow())
+    updated_at: Optional[datetime] = Field(default=datetime.utcnow())
 
 
 class PostCreate(PostBase):
@@ -22,6 +23,13 @@ class PostCreate(PostBase):
 class PostRead(PostBase):
     id: int
     created_at: datetime
+    updated_at: datetime
+
+
+class PostUpdate(SQLModel):
+    title: Optional[str] = None
+    author_name: Optional[str] = None
+    body: Optional[str] = None
 
 
 sqlite_file_name = "database.db"
