@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Post from "../components/Post";
 
 export default function Home({ posts }) {
   return (
@@ -8,7 +9,7 @@ export default function Home({ posts }) {
       </Head>
       <div className="posts">
         {posts.map((post, index) => (
-          <h3>{post.title}</h3>
+          <Post post={post} key={index} />
         ))}
       </div>
     </div>
