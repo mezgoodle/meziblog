@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter
 from sqlmodel import Session, select
 
@@ -9,7 +10,7 @@ router = APIRouter(
     tags=['posts']
 )
 
-@router.post("s")
+@router.post("s", response_model=Post)
 def create_post(post: Post):
     with Session(engine) as session:
         session.add(post)
@@ -18,7 +19,7 @@ def create_post(post: Post):
         return post
 
 
-@router.get("s")
+@router.get("s", response_model=List[Post])
 def read_posts():
     with Session(engine) as session:
         posts = session.exec(select(Post)).all()
