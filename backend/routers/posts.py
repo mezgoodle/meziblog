@@ -1,36 +1,35 @@
 from datetime import datetime
 from typing import List
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Depends
 from sqlmodel import Session, select
 
-from database import Post, PostCreate, PostRead, PostUpdate, engine
+from database import Post, PostCreate, PostRead, PostUpdate, engine, get_session
 
 
 router = APIRouter(
     prefix='/post',
-    tags=['posts']
+    tags=['posts'],
 )
 
 @router.post("s", response_model=PostRead)
-def create_post(post: PostCreate):
-    with Session(engine) as session:
-        db_post = Post.from_orm(post)
-        session.add(db_post)
-        session.commit()
-        session.refresh(db_post)
-        return db_post
+async def create_post(*, session: Session = Depends(get_session), post: PostCreate):
+    db_post = Post.from_orm(post)
+    session.add(db_post)
+    session.commit()
+    session.refresh(db_post)
+    return db_post
 
 
 @router.get("s", response_model=List[Post])
-def read_posts(offset: int = 0, limit: int = Query(default=100, lte=100)):
+async def read_posts(*, session: Session = Depends(get_session), offset: int = 0, limit: int = Query(default=100, lte=100)):
     with Session(engine) as session:
         posts = session.exec(select(Post).offset(offset).limit(limit)).all()
         return posts
 
 
 @router.get("/{post_id}", response_model=PostRead)
-def read_post(post_id: int):
+async def read_post(*, session: Session = Depends(get_session), post_id: int):
     with Session(engine) as session:
         post = session.get(Post, post_id)
         if not post:
@@ -39,7 +38,7 @@ def read_post(post_id: int):
 
 
 @router.patch("/{post_id}", response_model=PostRead)
-def update_post(post_id: int, post: PostUpdate):
+async def update_post(*, session: Session = Depends(get_session), post_id: int, post: PostUpdate):
     with Session(engine) as session:
         db_post = session.get(Post, post_id)
         if not db_post:
@@ -55,7 +54,7 @@ def update_post(post_id: int, post: PostUpdate):
 
 
 @router.delete("/{post_id}")
-def delete_post(post_id: int):
+async def delete_post(*, session: Session = Depends(get_session), post_id: int):
     with Session(engine) as session:
         post = session.get(Post, post_id)
         if not post:
