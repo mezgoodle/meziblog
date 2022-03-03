@@ -4,9 +4,9 @@ import Image from "next/image";
 export default function Post({ post }) {
   return (
     <div className="col-lg-4 col-md-6 col-sm-12">
-      <div class="card border border-primary shadow-0 p-3 m-3">
+      <div className="card border border-primary shadow-0 p-3 m-3">
         <div
-          class="bg-image hover-overlay ripple"
+          className="bg-image hover-overlay ripple"
           data-mdb-ripple-color="light"
         >
           <Image
@@ -18,21 +18,18 @@ export default function Post({ post }) {
           />
         </div>
 
-        <div class="card-body">
-          <h5 class="card-title">{post.title}</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
+        <div className="card-body">
+          <h5 className="card-title">{post.title}</h5>
+          <p className="card-text">{post.body}</p>
           <Link href={`post/${post.id}`}>
             <a>
-              <button type="button" class="btn btn-primary">
+              <button type="button" className="btn btn-primary">
                 Read more
               </button>
             </a>
           </Link>
         </div>
-        <div class="card-footer">
+        <div className="card-footer">
           {new Date(post.created_at).toLocaleString()}
         </div>
       </div>
