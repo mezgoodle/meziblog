@@ -1,15 +1,10 @@
-import Header from "../components/Header";
+import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
-      <Header />
-      <div className="container">
-        <div class="row justify-content-center">
-          <Component {...pageProps} />
-        </div>
-      </div>
-    </>
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
   );
 }
 

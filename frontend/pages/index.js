@@ -4,15 +4,10 @@ import { sortByDate } from "../utils";
 
 export default function Home({ posts }) {
   return (
-    <div className="col-4">
-      <Head>
-        <title>Create Next App</title>
-      </Head>
-      <div>
-        {posts.map((post, index) => (
-          <Post post={post} key={index} />
-        ))}
-      </div>
+    <div class="row justify-content-center">
+      {posts.map((post, index) => (
+        <Post post={post} key={index} />
+      ))}
     </div>
   );
 }
