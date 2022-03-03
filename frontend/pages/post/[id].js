@@ -1,5 +1,26 @@
+import Link from "next/link";
+import marked from "marked";
+
 export default function Post({ post }) {
-  return <div>{post.title}</div>;
+  return (
+    <>
+      <Link href="/">
+        <a className="btn btn-back">Go back</a>
+      </Link>
+      <div className="card card-page">
+        <h1 className="post-title">{post.title}</h1>
+        <div className="post-date">
+          Posted on {new Date(post.created_at).toLocaleString()}
+        </div>
+        <div className="post-date">
+          Updated on {new Date(post.updated_at).toLocaleString()}
+        </div>
+        <div className="post-body">
+          <div>{post.body}</div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export async function getStaticPaths() {
