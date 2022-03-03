@@ -5,7 +5,9 @@ function MyApp({ Component, pageProps }) {
     <>
       <Header />
       <div className="container">
-        <Component {...pageProps} />
+        <div class="row justify-content-center">
+          <Component {...pageProps} />
+        </div>
       </div>
     </>
   );

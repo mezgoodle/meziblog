@@ -4,11 +4,11 @@ import { sortByDate } from "../utils";
 
 export default function Home({ posts }) {
   return (
-    <div>
+    <div className="col-4">
       <Head>
         <title>Create Next App</title>
       </Head>
-      <div className="posts">
+      <div>
         {posts.map((post, index) => (
           <Post post={post} key={index} />
         ))}
