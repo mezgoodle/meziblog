@@ -2,10 +2,37 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header>
-      <div className="container">
-        <Link href="/">Mezi Blog</Link>
+    <nav className="navbar navbar-expand-lg bg-primary navbar-dark">
+      <div className="container-fluid">
+        <Link href="/">
+          <a className="navbar-brand">Mezi Blog</a>
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i className="fas fa-bars"></i>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav d-flex flex-row me-1">
+            <li className="nav-item me-3 me-lg-0">
+              <a className="nav-link" href="#">
+                <i className="fas fa-shopping-cart"></i>
+              </a>
+            </li>
+            <li className="nav-item me-3 me-lg-0">
+              <a className="nav-link" href="#">
+                <i className="fab fa-twitter"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </header>
+    </nav>
   );
 }
