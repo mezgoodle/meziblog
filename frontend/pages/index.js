@@ -4,7 +4,7 @@ import { sortByDate } from "../utils";
 
 export default function Home({ posts }) {
   return (
-    <div class="row justify-content-center">
+    <div className="row justify-content-center">
       {posts.map((post, index) => (
         <Post post={post} key={index} />
       ))}
