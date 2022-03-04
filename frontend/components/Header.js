@@ -21,13 +21,30 @@ export default function Header() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav d-flex flex-row me-1">
             <li className="nav-item me-3 me-lg-0">
-              <a className="nav-link" href="#">
-                <i className="fas fa-shopping-cart"></i>
+              <a
+                className="nav-link"
+                href="https://github.com/mezgoodle/meziblog"
+                title="GitHub repository"
+              >
+                <i className="fab fa-github"></i>
               </a>
             </li>
             <li className="nav-item me-3 me-lg-0">
-              <a className="nav-link" href="#">
-                <i className="fab fa-twitter"></i>
+              <a
+                className="nav-link"
+                href="mailto:mezgoodle@gmail.com"
+                title="Mail to me"
+              >
+                <i class="fas fa-envelope"></i>
+              </a>
+            </li>
+            <li className="nav-item me-3 me-lg-0">
+              <a
+                className="nav-link"
+                href="https://t.me/sylvenis"
+                title="Text to me"
+              >
+                <i class="fab fa-telegram"></i>
               </a>
             </li>
           </ul>
