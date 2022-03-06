@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Optional
 
 from sqlmodel import Field, SQLModel, create_engine, Session
+from pydantic import EmailStr
 
 
 class PostBase(SQLModel):
@@ -34,11 +35,11 @@ class PostUpdate(SQLModel):
 
 class UserBase(SQLModel):
     name: str = Field(...)
-    email: str = Field(...)
+    email: EmailStr = Field(...)
     password: str = Field(...)
     
 
-class User(PostBase, table=True):
+class User(UserBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     created_at: Optional[datetime] = Field(default=datetime.utcnow())
 
@@ -47,7 +48,7 @@ class UserCreate(UserBase):
     pass
 
 
-class UserRead(PostBase):
+class UserRead(UserBase):
     id: int
     created_at: datetime
 
