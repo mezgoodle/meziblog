@@ -23,7 +23,7 @@ async def create_post(*, session: Session = Depends(get_session), post: PostCrea
     return db_post
 
 
-@router.get("s", response_model=List[Post])
+@router.get("s", response_model=List[PostRead])
 async def read_posts(*, session: Session = Depends(get_session), offset: int = 0, limit: int = Query(default=100, lte=100)):
     posts = session.exec(select(Post).offset(offset).limit(limit)).all()
     return posts
