@@ -32,6 +32,32 @@ class PostUpdate(SQLModel):
     body: Optional[str] = None
 
 
+class UserBase(SQLModel):
+    name: str = Field(...)
+    email: str = Field(...)
+    password: str = Field(...)
+    
+
+class User(PostBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    created_at: Optional[datetime] = Field(default=datetime.utcnow())
+
+
+class UserCreate(UserBase):
+    pass
+
+
+class UserRead(PostBase):
+    id: int
+    created_at: datetime
+
+
+class UserUpdate(SQLModel):
+    name: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
+
+
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
