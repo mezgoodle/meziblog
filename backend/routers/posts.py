@@ -5,11 +5,13 @@ from fastapi import APIRouter, HTTPException, Query, Depends
 from sqlmodel import Session, select
 
 from database import Post, PostCreate, PostRead, PostUpdate, engine, get_session
+from oauth import get_current_user
 
 
 router = APIRouter(
     prefix='/post',
     tags=['posts'],
+    dependencies=[Depends(get_current_user)]
 )
 
 @router.post("s", response_model=PostRead)
