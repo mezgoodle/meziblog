@@ -23,42 +23,38 @@ async def create_post(*, session: Session = Depends(get_session), post: PostCrea
 
 @router.get("s", response_model=List[Post])
 async def read_posts(*, session: Session = Depends(get_session), offset: int = 0, limit: int = Query(default=100, lte=100)):
-    with Session(engine) as session:
-        posts = session.exec(select(Post).offset(offset).limit(limit)).all()
-        return posts
+    posts = session.exec(select(Post).offset(offset).limit(limit)).all()
+    return posts
 
 
 @router.get("/{post_id}", response_model=PostRead)
 async def read_post(*, session: Session = Depends(get_session), post_id: int):
-    with Session(engine) as session:
-        post = session.get(Post, post_id)
-        if not post:
-            raise HTTPException(status_code=404, detail="Post not found")
-        return post
+    post = session.get(Post, post_id)
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return post
 
 
 @router.patch("/{post_id}", response_model=PostRead)
 async def update_post(*, session: Session = Depends(get_session), post_id: int, post: PostUpdate):
-    with Session(engine) as session:
-        db_post = session.get(Post, post_id)
-        if not db_post:
-            raise HTTPException(status_code=404, detail="Post not found")
-        post_data = post.dict(exclude_unset=True)
-        for key, value in post_data.items():
-            setattr(db_post, key, value)
-        setattr(db_post, 'updated_at', datetime.utcnow())
-        session.add(db_post)
-        session.commit()
-        session.refresh(db_post)
-        return db_post
+    db_post = session.get(Post, post_id)
+    if not db_post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    post_data = post.dict(exclude_unset=True)
+    for key, value in post_data.items():
+        setattr(db_post, key, value)
+    setattr(db_post, 'updated_at', datetime.utcnow())
+    session.add(db_post)
+    session.commit()
+    session.refresh(db_post)
+    return db_post
 
 
 @router.delete("/{post_id}")
 async def delete_post(*, session: Session = Depends(get_session), post_id: int):
-    with Session(engine) as session:
-        post = session.get(Post, post_id)
-        if not post:
-            raise HTTPException(status_code=404, detail="Post not found")
-        session.delete(post)
-        session.commit()
-        return {"ok": True}
+    post = session.get(Post, post_id)
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    session.delete(post)
+    session.commit()
+    return {"ok": True}
