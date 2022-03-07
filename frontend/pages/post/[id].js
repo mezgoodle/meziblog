@@ -1,7 +1,13 @@
+import { useState } from "react";
 import Link from "next/link";
-import marked from "marked";
 
 export default function Post({ post }) {
+  const [editable, setEditable] = useState(false);
+
+  const handleEdit = () => {
+    console.log("Hello");
+  };
+
   return (
     <main className="mt-3 pt-3">
       <div className="container">
@@ -42,8 +48,9 @@ export default function Post({ post }) {
                     <button
                       type="button"
                       className="btn btn-warning btn-rounded ms-1"
+                      onClick={handleEdit}
                     >
-                      Update the post
+                      {editable ? "Update the post" : "Submit the updating"}
                     </button>
                   </div>
                 </div>
