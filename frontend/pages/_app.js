@@ -9,7 +9,9 @@ function MyApp({ Component, pageProps }) {
   const [author, setAuthor] = useState("");
 
   return (
-    <EditContext.Provider value={[title, setTitle]}>
+    <EditContext.Provider
+      value={{ title, setTitle, body, setBody, author, setAuthor }}
+    >
       <Layout>
         <Component {...pageProps} />
       </Layout>
