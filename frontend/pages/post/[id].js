@@ -1,11 +1,14 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import PostBody from "../../components/PostBody";
+import EditPost from "../../components/EditPost";
+
 export default function Post({ post }) {
   const [editable, setEditable] = useState(false);
 
   const handleEdit = () => {
-    console.log("Hello");
+    setEditable(!editable);
   };
 
   return (
@@ -21,38 +24,36 @@ export default function Post({ post }) {
                   alt=""
                 />
               </div>
-
               <div className="card mb-4 wow fadeIn">
-                <div className="card-body">
-                  <h1 className="my-4 text-center">{post.title}</h1>
-                  <p>
-                    <strong>Created on: </strong>
-                    {new Date(post.created_at).toLocaleString()}
-                  </p>
-                  <p>
-                    <strong>Updated on: </strong>
-                    {new Date(post.updated_at).toLocaleString()}
-                  </p>
-                  <p>{post.body}</p>
-                  <div>
-                    <Link href="/">
-                      <a>
-                        <button
-                          type="button"
-                          className="btn btn-dark btn-rounded"
-                        >
-                          Back to posts
-                        </button>
-                      </a>
-                    </Link>
-                    <button
-                      type="button"
-                      className="btn btn-warning btn-rounded ms-1"
-                      onClick={handleEdit}
-                    >
-                      {editable ? "Update the post" : "Submit the updating"}
-                    </button>
-                  </div>
+                {!editable ? (
+                  <PostBody post={post} />
+                ) : (
+                  <EditPost post={post} />
+                )}
+                <div className="mb-3">
+                  <Link href="/">
+                    <a>
+                      <button
+                        type="button"
+                        className="btn btn-dark btn-rounded"
+                      >
+                        Back to posts
+                      </button>
+                    </a>
+                  </Link>
+                  <button
+                    type="button"
+                    className="btn btn-warning btn-rounded ms-3"
+                    onClick={handleEdit}
+                  >
+                    {!editable ? "Update the post" : "Submit the updating"}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger btn-rounded ms-3"
+                  >
+                    Delete the post
+                  </button>
                 </div>
               </div>
             </div>
