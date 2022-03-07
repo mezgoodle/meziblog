@@ -43,7 +43,7 @@ export default function Post({ post }) {
                       type="button"
                       className="btn btn-warning btn-rounded ms-1"
                     >
-                      Back to posts
+                      Update the post
                     </button>
                   </div>
                 </div>
