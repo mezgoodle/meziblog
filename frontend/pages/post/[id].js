@@ -28,56 +28,24 @@ export default function Post({ post }) {
                     {new Date(post.updated_at).toLocaleString()}
                   </p>
                   <p>{post.body}</p>
-                  <Link href="/">
-                    <a>
-                      <button
-                        type="button"
-                        className="btn btn-dark btn-rounded"
-                      >
-                        Back to posts
-                      </button>
-                    </a>
-                  </Link>
-                </div>
-              </div>
-
-              <div className="card mb-3 wow fadeIn">
-                <div className="card-header font-weight-bold">
-                  Leave a reply
-                </div>
-                <div className="card-body">
-                  <form>
-                    <div className="form-group">
-                      <label for="replyFormComment">Your comment</label>
-                      <textarea
-                        className="form-control"
-                        id="replyFormComment"
-                        rows="5"
-                      ></textarea>
-                    </div>
-
-                    <label for="replyFormName">Your name</label>
-                    <input
-                      type="email"
-                      id="replyFormName"
-                      className="form-control"
-                    />
-
-                    <br />
-
-                    <label for="replyFormEmail">Your e-mail</label>
-                    <input
-                      type="email"
-                      id="replyFormEmail"
-                      className="form-control"
-                    />
-
-                    <div className="text-center mt-4">
-                      <button className="btn btn-info btn-md" type="submit">
-                        Post
-                      </button>
-                    </div>
-                  </form>
+                  <div>
+                    <Link href="/">
+                      <a>
+                        <button
+                          type="button"
+                          className="btn btn-dark btn-rounded"
+                        >
+                          Back to posts
+                        </button>
+                      </a>
+                    </Link>
+                    <button
+                      type="button"
+                      className="btn btn-warning btn-rounded ms-1"
+                    >
+                      Back to posts
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
