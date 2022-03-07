@@ -13,9 +13,7 @@ export default function Post({ post }) {
   const handleEdit = () => {
     if (editable) {
       console.log(title, body, author);
-      setTitle("");
-      setBody("");
-      setAuthor("");
+      [setTitle, setBody, setAuthor].forEach((setState) => setState(""));
     }
     setEditable(!editable);
   };
