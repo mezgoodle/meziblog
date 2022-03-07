@@ -1,4 +1,9 @@
+import { useContext } from "react";
+import { EditContext } from "../context/EditContext";
+
 export default function EditPost({ post }) {
+  const [title, setTitle] = useContext(EditContext);
+
   return (
     <form className="card-body">
       <div className="mb-4">
@@ -6,7 +11,8 @@ export default function EditPost({ post }) {
           type="text"
           id="form1Example1"
           className="form-control"
-          value={post.title}
+          defaultValue={post.title}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <label className="form-label" for="form1Example1">
           Title

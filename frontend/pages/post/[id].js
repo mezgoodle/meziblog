@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Link from "next/link";
 
 import PostBody from "../../components/PostBody";
 import EditPost from "../../components/EditPost";
+import { EditContext } from "../../context/EditContext";
 
 export default function Post({ post }) {
+  const [title, setTitle] = useContext(EditContext);
   const [editable, setEditable] = useState(false);
 
   const handleEdit = () => {
+    if (editable) {
+      console.log(title);
+    }
     setEditable(!editable);
   };
 
