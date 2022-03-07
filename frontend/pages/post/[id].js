@@ -6,12 +6,16 @@ import EditPost from "../../components/EditPost";
 import { EditContext } from "../../context/EditContext";
 
 export default function Post({ post }) {
-  const [title, setTitle] = useContext(EditContext);
+  const { title, setTitle, body, setBody, author, setAuthor } =
+    useContext(EditContext);
   const [editable, setEditable] = useState(false);
 
   const handleEdit = () => {
     if (editable) {
-      console.log(title);
+      console.log(title, body, author);
+      setTitle("");
+      setBody("");
+      setAuthor("");
     }
     setEditable(!editable);
   };
@@ -35,7 +39,7 @@ export default function Post({ post }) {
                 ) : (
                   <EditPost post={post} />
                 )}
-                <div className="mb-3">
+                <div className="mb-3 ms-3">
                   <Link href="/">
                     <a>
                       <button

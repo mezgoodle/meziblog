@@ -1,8 +1,15 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { EditContext } from "../context/EditContext";
 
 export default function EditPost({ post }) {
-  const [title, setTitle] = useContext(EditContext);
+  const { title, setTitle, body, setBody, author, setAuthor } =
+    useContext(EditContext);
+
+  useEffect(() => {
+    setTitle(title ? title : post.title);
+    setBody(body ? body : post.body);
+    setAuthor(author ? author : post.author_name);
+  });
 
   return (
     <form className="card-body">
@@ -22,11 +29,12 @@ export default function EditPost({ post }) {
       <div className="mb-4">
         <input
           type="text"
-          id="form1Example1"
+          id="form1Example2"
           className="form-control"
-          value={post.body}
+          defaultValue={post.body}
+          onChange={(e) => setBody(e.target.value)}
         />
-        <label className="form-label" for="form1Example1">
+        <label className="form-label" for="form1Example2">
           Body
         </label>
       </div>
@@ -34,11 +42,12 @@ export default function EditPost({ post }) {
       <div className="mb-4">
         <input
           type="text"
-          id="form1Example2"
+          id="form1Example3"
           className="form-control"
-          value={post.author_name}
+          defaultValue={post.author_name}
+          onChange={(e) => setAuthor(e.target.value)}
         />
-        <label className="form-label" for="form1Example1">
+        <label className="form-label" for="form1Example3">
           Author name
         </label>
       </div>
