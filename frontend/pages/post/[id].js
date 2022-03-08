@@ -13,9 +13,17 @@ export default function Post({ data }) {
   const [editable, setEditable] = useState(false);
   const [post, setPost] = useState({});
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     if (editable) {
-      console.log(title, body, author);
+      const response = await fetch(`http://127.0.0.1:8000/post/${post.id}/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, body, author_name: author }),
+      });
+      const updatedPost = await response.json();
+      setPost(updatedPost);
       [setTitle, setBody, setAuthor].forEach((setState) => setState(""));
     }
     setEditable(!editable);
