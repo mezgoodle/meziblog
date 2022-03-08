@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -6,11 +6,12 @@ import PostBody from "../../components/PostBody";
 import EditPost from "../../components/EditPost";
 import { EditContext } from "../../context/EditContext";
 
-export default function Post({ post }) {
+export default function Post({ data }) {
   const router = useRouter();
   const { title, setTitle, body, setBody, author, setAuthor } =
     useContext(EditContext);
   const [editable, setEditable] = useState(false);
+  const [post, setPost] = useState({});
 
   const handleEdit = () => {
     if (editable) {
@@ -29,6 +30,10 @@ export default function Post({ post }) {
     });
     if (response.ok) router.push("/");
   };
+
+  useEffect(() => {
+    setPost(data);
+  }, [data]);
 
   return (
     <main className="mt-3 pt-3">
@@ -86,8 +91,8 @@ export default function Post({ post }) {
 
 export async function getServerSideProps({ params: { id } }) {
   const response = await fetch(`http://127.0.0.1:8000/post/${id}`);
-  const post = await response.json();
+  const data = await response.json();
   return {
-    props: { post },
+    props: { data },
   };
 }
