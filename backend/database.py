@@ -13,8 +13,8 @@ class PostBase(SQLModel):
 
 class Post(PostBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    created_at: Optional[datetime] = Field(default=datetime.utcnow())
-    updated_at: Optional[datetime] = Field(default=datetime.utcnow())
+    created_at: Optional[datetime] = Field()
+    updated_at: Optional[datetime] = Field()
 
 
 class PostCreate(PostBase):

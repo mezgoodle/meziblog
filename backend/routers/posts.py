@@ -17,6 +17,8 @@ router = APIRouter(
 @router.post("s", response_model=PostRead)
 async def create_post(*, session: Session = Depends(get_session), post: PostCreate):
     db_post = Post.from_orm(post)
+    setattr(db_post, 'created_at', datetime.utcnow())
+    setattr(db_post, 'updated_at', datetime.utcnow())
     session.add(db_post)
     session.commit()
     session.refresh(db_post)
