@@ -21,7 +21,7 @@ export default function EditPost({ post }) {
           defaultValue={post.title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <label className="form-label" for="form1Example1">
+        <label className="form-label" htmlFor="form1Example1">
           Title
         </label>
       </div>
@@ -34,7 +34,7 @@ export default function EditPost({ post }) {
           defaultValue={post.body}
           onChange={(e) => setBody(e.target.value)}
         />
-        <label className="form-label" for="form1Example2">
+        <label className="form-label" htmlFor="form1Example2">
           Body
         </label>
       </div>
@@ -47,7 +47,7 @@ export default function EditPost({ post }) {
           defaultValue={post.author_name}
           onChange={(e) => setAuthor(e.target.value)}
         />
-        <label className="form-label" for="form1Example3">
+        <label className="form-label" htmlFor="form1Example3">
           Author name
         </label>
       </div>
