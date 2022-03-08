@@ -35,7 +35,7 @@ export default function Header() {
                 href="mailto:mezgoodle@gmail.com"
                 title="Mail to me"
               >
-                <i class="fas fa-envelope"></i>
+                <i className="fas fa-envelope"></i>
               </a>
             </li>
             <li className="nav-item me-3 me-lg-0">
@@ -44,7 +44,7 @@ export default function Header() {
                 href="https://t.me/sylvenis"
                 title="Text to me"
               >
-                <i class="fab fa-telegram"></i>
+                <i className="fab fa-telegram"></i>
               </a>
             </li>
           </ul>

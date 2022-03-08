@@ -21,7 +21,7 @@ export default function Post({ post }) {
         <div className="card-body">
           <h5 className="card-title">{post.title}</h5>
           <p className="card-text">{post.body}</p>
-          <Link href={`post/${post.id}`}>
+          <Link href={`/post/${post.id}`}>
             <a>
               <button type="button" className="btn btn-primary">
                 Read more
