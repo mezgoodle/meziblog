@@ -7,6 +7,9 @@ export default function Header() {
         <Link href="/">
           <a className="navbar-brand">Mezi Blog</a>
         </Link>
+        <Link href="/post/new">
+          <a className="navbar-brand">Create a new post</a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
