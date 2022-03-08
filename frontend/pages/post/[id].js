@@ -1,11 +1,13 @@
 import { useState, useContext } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import PostBody from "../../components/PostBody";
 import EditPost from "../../components/EditPost";
 import { EditContext } from "../../context/EditContext";
 
 export default function Post({ post }) {
+  const router = useRouter();
   const { title, setTitle, body, setBody, author, setAuthor } =
     useContext(EditContext);
   const [editable, setEditable] = useState(false);
@@ -16,6 +18,16 @@ export default function Post({ post }) {
       [setTitle, setBody, setAuthor].forEach((setState) => setState(""));
     }
     setEditable(!editable);
+  };
+
+  const handleDelete = async () => {
+    const response = await fetch(`http://127.0.0.1:8000/post/${post.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) router.push("/");
   };
 
   return (
@@ -58,6 +70,7 @@ export default function Post({ post }) {
                   <button
                     type="button"
                     className="btn btn-danger btn-rounded ms-3"
+                    onClick={handleDelete}
                   >
                     Delete the post
                   </button>
