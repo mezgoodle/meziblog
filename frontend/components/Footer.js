@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-light text-center ">
+    <footer className="bg-light text-center fixed-bottom">
       <div className="container p-4">
         <section className="mb-4">
           <a
