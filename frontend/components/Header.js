@@ -50,6 +50,13 @@ export default function Header() {
                 <i className="fab fa-telegram"></i>
               </a>
             </li>
+            <li className="nav-item me-3 me-lg-0">
+              <Link href={"/user"}>
+                <a className="nav-link" title="Login or register">
+                  <i className="fas fa-user-alt"></i>
+                </a>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
