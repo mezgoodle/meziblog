@@ -4,7 +4,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, Query, Depends
 from sqlmodel import Session, select
 
-from database import Post, PostCreate, PostRead, PostUpdate, engine, get_session
+from database import Post, PostCreate, PostRead, PostUpdate, get_session
 from oauth import get_current_user
 
 
