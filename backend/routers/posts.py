@@ -11,7 +11,7 @@ from oauth import get_current_user
 router = APIRouter(
     prefix='/post',
     tags=['posts'],
-    # dependencies=[Depends(get_current_user)]
+    dependencies=[Depends(get_current_user)]
 )
 
 @router.post("s", response_model=PostRead)
