@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 
-export const EditContext = React.createContext();
+export const EditContext = createContext();
 
 export const EditProvider = (props) => {
   const [title, setTitle] = useState("");
