@@ -29,7 +29,7 @@ def create_user(*, session: Session = Depends(get_session), user: UserCreate):
 @router.post('/login', response_description='Login into API',
              status_code=status.HTTP_202_ACCEPTED)
 async def login(*, session: Session = Depends(get_session), request: OAuth2PasswordRequestForm = Depends()):
-    statement = select(User).where(User.name == request.username)
+    statement = select(User).where(User.email == request.username)
     results = session.exec(statement)
     user = results.first()
     if not Hash.verify(user.password, request.password):
