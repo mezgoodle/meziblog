@@ -12,6 +12,7 @@ export default function Post({ data }) {
     useContext(EditContext);
   const [editable, setEditable] = useState(false);
   const [post, setPost] = useState({});
+  const [token, setToken] = useState(undefined);
 
   const handleEdit = async () => {
     if (editable) {
@@ -41,6 +42,7 @@ export default function Post({ data }) {
 
   useEffect(() => {
     setPost(data);
+    setToken(localStorage.token);
   }, [data]);
 
   return (
@@ -73,20 +75,26 @@ export default function Post({ data }) {
                       </button>
                     </a>
                   </Link>
-                  <button
-                    type="button"
-                    className="btn btn-warning btn-rounded ms-3"
-                    onClick={handleEdit}
-                  >
-                    {!editable ? "Update the post" : "Submit the updating"}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger btn-rounded ms-3"
-                    onClick={handleDelete}
-                  >
-                    Delete the post
-                  </button>
+                  {token ? (
+                    <>
+                      <button
+                        type="button"
+                        className="btn btn-warning btn-rounded ms-3"
+                        onClick={handleEdit}
+                      >
+                        {!editable ? "Update the post" : "Submit the updating"}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-rounded ms-3"
+                        onClick={handleDelete}
+                      >
+                        Delete the post
+                      </button>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>
