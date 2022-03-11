@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function user() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -23,6 +26,7 @@ export default function user() {
       console.error(data.detail);
     } else {
       localStorage.setItem("token", data.access_token);
+      router.push("/");
     }
   };
 
