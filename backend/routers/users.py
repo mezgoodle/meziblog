@@ -4,8 +4,9 @@ from sqlmodel import Session, select
 from pydantic import EmailStr
 
 from database import UserCreate, UserRead, User, UserUpdate, get_session
-from auth_token import create_access_token
+from auth_token import create_access_token, Token
 from hashing import Hash
+from oauth import get_current_user
 
 from typing import List
 
@@ -27,7 +28,7 @@ def create_user(*, session: Session = Depends(get_session), user: UserCreate):
 
 
 @router.post('/login', response_description='Login into API',
-             status_code=status.HTTP_202_ACCEPTED)
+             status_code=status.HTTP_202_ACCEPTED, response_model=Token)
 async def login(*, session: Session = Depends(get_session), request: OAuth2PasswordRequestForm = Depends()):
     statement = select(User).where(User.email == request.username)
     results = session.exec(statement)
@@ -35,13 +36,18 @@ async def login(*, session: Session = Depends(get_session), request: OAuth2Passw
     if not Hash.verify(user.password, request.password):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Incorrect password')
     access_token = create_access_token(data={"sub": user.email})
-    return {'access_token': access_token, 'token_type': 'bearer', 'email': user.email}
+    return {'access_token': access_token, 'token_type': 'bearer'}
 
 
 @router.get("s", response_model=List[UserRead])
 async def read_users(*, session: Session = Depends(get_session), offset: int = 0, limit: int = Query(default=100, lte=100)):
     users = session.exec(select(User).offset(offset).limit(limit)).all()
     return users
+
+
+@router.get("/me", response_model=UserRead)
+async def read_users_me(current_user = Depends(get_current_user)):
+    return current_user
 
 
 @router.get("/{user_email}", response_model=UserRead)
