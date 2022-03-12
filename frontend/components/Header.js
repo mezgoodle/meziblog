@@ -1,13 +1,36 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function Header() {
   const router = useRouter();
+  const [token, setToken] = useState(undefined);
+  const [user, setUser] = useState("");
 
   const logout = () => {
     localStorage.removeItem("token");
     router.push("/");
   };
+
+  useEffect(async () => {
+    setToken(localStorage.token);
+    if (token) {
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      };
+      const response = await fetch(
+        "http://127.0.0.1:8000/user/me",
+        requestOptions
+      );
+      const data = await response.json();
+      setUser(data.name);
+    }
+  });
 
   return (
     <nav className="navbar navbar-expand-lg bg-primary navbar-dark">
@@ -75,6 +98,13 @@ export default function Header() {
               </a>
             </li>
           </ul>
+          {token ? (
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item navbar-brand">Hello, {user}</li>
+            </ul>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </nav>
