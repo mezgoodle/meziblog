@@ -1,6 +1,14 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Header() {
+  const router = useRouter();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    router.push("/");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-primary navbar-dark">
       <div className="container-fluid">
@@ -56,6 +64,15 @@ export default function Header() {
                   <i className="fas fa-user-alt"></i>
                 </a>
               </Link>
+            </li>
+            <li className="nav-item me-3 me-lg-0">
+              <a
+                className="nav-link"
+                title="Login or register"
+                onClick={logout}
+              >
+                <i class="fas fa-sign-out-alt" title="Logout"></i>
+              </a>
             </li>
           </ul>
         </div>
