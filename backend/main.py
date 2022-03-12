@@ -3,13 +3,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from database import create_db_and_tables
-from routers import posts, users
+from routers import posts, users, authentication
 
 
 app = FastAPI()
 
 app.include_router(posts.router)
 app.include_router(users.router)
+app.include_router(authentication.router)
 
 origins = [
     "http://localhost", 

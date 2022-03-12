@@ -16,10 +16,7 @@ export default function user() {
         `grant_type=&username=${email}&password=${password}&scope=&client_id=&client_secret=`
       ),
     };
-    const response = await fetch(
-      "http://127.0.0.1:8000/user/login",
-      requestOptions
-    );
+    const response = await fetch("http://127.0.0.1:8000/login", requestOptions);
     const data = await response.json();
 
     if (!response.ok) {
