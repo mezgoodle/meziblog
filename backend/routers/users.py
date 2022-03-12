@@ -13,6 +13,7 @@ from typing import List
 router = APIRouter(
     prefix='/user',
     tags=['users'],
+    dependencies=[Depends(get_current_user)]
 )
 
 
