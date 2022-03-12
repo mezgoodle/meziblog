@@ -4,18 +4,18 @@ from typing import List
 from fastapi import APIRouter, HTTPException, Query, Depends
 from sqlmodel import Session, select
 
-from database import Post, PostCreate, PostRead, PostUpdate, get_session
+from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
 
 
 router = APIRouter(
     prefix='/post',
     tags=['posts'],
-    dependencies=[Depends(get_current_user)]
 )
 
 @router.post("s", response_model=PostRead)
-async def create_post(*, session: Session = Depends(get_session), post: PostCreate):
+async def create_post(*, session: Session = Depends(get_session), post: PostCreate, user: UserRead = Depends(get_current_user)):
+    setattr(post, 'author_name', user.name)
     db_post = Post.from_orm(post)
     setattr(db_post, 'created_at', datetime.utcnow())
     setattr(db_post, 'updated_at', datetime.utcnow())
@@ -40,7 +40,7 @@ async def read_post(*, session: Session = Depends(get_session), post_id: int):
 
 
 @router.patch("/{post_id}", response_model=PostRead)
-async def update_post(*, session: Session = Depends(get_session), post_id: int, post: PostUpdate):
+async def update_post(*, session: Session = Depends(get_session), post_id: int, post: PostUpdate, _ = Depends(get_current_user)):
     db_post = session.get(Post, post_id)
     if not db_post:
         raise HTTPException(status_code=404, detail="Post not found")
@@ -55,7 +55,7 @@ async def update_post(*, session: Session = Depends(get_session), post_id: int, 
 
 
 @router.delete("/{post_id}")
-async def delete_post(*, session: Session = Depends(get_session), post_id: int):
+async def delete_post(*, session: Session = Depends(get_session), post_id: int, _ = Depends(get_current_user)):
     post = session.get(Post, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
