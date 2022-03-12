@@ -17,8 +17,13 @@ router = APIRouter(
 )
 
 
-@router.post('/register', response_model=UserRead)
+@router.post('', response_model=UserRead)
 def create_user(*, session: Session = Depends(get_session), user: UserCreate):
+    statement = select(User).where(User.email == user.email)
+    results = session.exec(statement)
+    user_db = results.first()
+    if user_db:
+        raise HTTPException(status_code=404, detail="User with the email is already registred")
     user.password = Hash.bcrypt(user.password)
     db_user = User.from_orm(user)
     session.add(db_user)
