@@ -1,23 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
+import Error from "../../components/Error";
 
 export default function Post() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [token, setToken] = useState(undefined);
 
   const handleCreate = async () => {
     const response = await fetch("http://127.0.0.1:8000/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ title, body }),
     });
     const createdPost = await response.json();
     router.push(`/post/${createdPost.id}`);
   };
+
+  useEffect(() => {
+    setToken(localStorage.token);
+  });
 
   return (
     <main className="mt-3 pt-3">
@@ -32,6 +40,7 @@ export default function Post() {
                   alt=""
                 />
               </div>
+              {!token ? <Error text={"You are not authorized"} /> : ""}
               <div className="card mb-4 wow fadeIn">
                 <form className="card-body">
                   <div className="mb-4">
@@ -73,7 +82,9 @@ export default function Post() {
                   </Link>
                   <button
                     type="button"
-                    className="btn btn-success btn-rounded ms-3"
+                    className={`btn btn-success btn-rounded ms-3 ${
+                      token ? "" : "disabled"
+                    }`}
                     onClick={handleCreate}
                   >
                     Create the post
