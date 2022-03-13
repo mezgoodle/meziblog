@@ -14,20 +14,20 @@ export default function Post({ data }) {
   const [post, setPost] = useState({});
   const [token, setToken] = useState(undefined);
 
+  const requestOptions = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   const handleEdit = async () => {
     if (editable) {
-      const requestOptions = {
+      const response = await fetch(`http://127.0.0.1:8000/post/${post.id}/`, {
+        ...requestOptions,
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({ title, body, author_name: author }),
-      };
-      const response = await fetch(
-        `http://127.0.0.1:8000/post/${post.id}/`,
-        requestOptions
-      );
+      });
       const updatedPost = await response.json();
       setPost(updatedPost);
       [setTitle, setBody, setAuthor].forEach((setState) => setState(""));
@@ -37,10 +37,8 @@ export default function Post({ data }) {
 
   const handleDelete = async () => {
     const response = await fetch(`http://127.0.0.1:8000/post/${post.id}`, {
+      ...requestOptions,
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
     if (response.ok) router.push("/");
   };
