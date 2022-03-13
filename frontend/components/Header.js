@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export default function Header() {
   const router = useRouter();
   const [token, setToken] = useState(undefined);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(undefined);
 
   const logout = () => {
     localStorage.removeItem("token");
