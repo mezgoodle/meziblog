@@ -16,13 +16,18 @@ export default function Post({ data }) {
 
   const handleEdit = async () => {
     if (editable) {
-      const response = await fetch(`http://127.0.0.1:8000/post/${post.id}/`, {
+      const requestOptions = {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ title, body, author_name: author }),
-      });
+      };
+      const response = await fetch(
+        `http://127.0.0.1:8000/post/${post.id}/`,
+        requestOptions
+      );
       const updatedPost = await response.json();
       setPost(updatedPost);
       [setTitle, setBody, setAuthor].forEach((setState) => setState(""));

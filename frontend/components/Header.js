@@ -94,13 +94,13 @@ export default function Header() {
                 title="Login or register"
                 onClick={logout}
               >
-                <i class="fas fa-sign-out-alt" title="Logout"></i>
+                <i className="fas fa-sign-out-alt" title="Logout"></i>
               </a>
             </li>
           </ul>
           {token ? (
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li class="nav-item navbar-brand">Hello, {user}</li>
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li className="nav-item navbar-brand">Hello, {user}</li>
             </ul>
           ) : (
             ""
