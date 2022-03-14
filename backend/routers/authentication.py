@@ -34,6 +34,8 @@ async def login(*, session: Session = Depends(get_session), request: OAuth2Passw
     statement = select(User).where(User.email == request.username)
     results = session.exec(statement)
     user = results.first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User has not found")
     if not Hash.verify(user.password, request.password):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Incorrect password')
     access_token = create_access_token(data={"sub": user.email})
