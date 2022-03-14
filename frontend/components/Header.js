@@ -27,8 +27,13 @@ export default function Header() {
         "http://127.0.0.1:8000/user/me",
         requestOptions
       );
-      const data = await response.json();
-      setUser(data.name);
+
+      if (!response.ok) {
+        localStorage.removeItem("token");
+      } else {
+        const data = await response.json();
+        setUser(data.name);
+      }
     }
   });
 
