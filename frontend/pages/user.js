@@ -14,14 +14,48 @@ export default function user() {
   const [newEmail, setNewEmail] = useState("");
   const [equalPassword, setEqual] = useState(true);
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+    if (newPassword === newSecondPassword) {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newName,
+          email: newEmail,
+          password: newPassword,
+        }),
+      };
+      const response = await fetch(
+        "http://127.0.0.1:8000/register",
+        requestOptions
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error(data.detail);
+      } else {
+        handleLogin();
+      }
+    } else setEqual(false);
+  };
+
+  const handleLogin = async (e) => {
+    let body;
+    if (e) {
+      e.preventDefault();
+      body = JSON.stringify(
+        `grant_type=&username=${email}&password=${password}&scope=&client_id=&client_secret=`
+      );
+    } else {
+      body = JSON.stringify(
+        `grant_type=&username=${newEmail}&password=${newPassword}&scope=&client_id=&client_secret=`
+      );
+    }
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: JSON.stringify(
-        `grant_type=&username=${email}&password=${password}&scope=&client_id=&client_secret=`
-      ),
+      body,
     };
     const response = await fetch("http://127.0.0.1:8000/login", requestOptions);
     const data = await response.json();
@@ -32,13 +66,6 @@ export default function user() {
       localStorage.setItem("token", data.access_token);
       router.push("/");
     }
-  };
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    if (newPassword === newSecondPassword) {
-      console.log(newEmail, newName, newPassword);
-    } else setEqual(false);
   };
 
   return (
