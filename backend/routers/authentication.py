@@ -2,13 +2,27 @@ from fastapi import APIRouter, HTTPException, Depends, status, Query
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import select, Session
 
-from database import User, get_session
+from database import User, UserRead, UserCreate, get_session
 from auth_token import create_access_token, Token
 from hashing import Hash
 
 router = APIRouter(
     tags=['authentication'],
 )
+
+@router.post('/register', response_model=UserRead)
+def create_user(*, session: Session = Depends(get_session), user: UserCreate):
+    statement = select(User).where(User.email == user.email)
+    results = session.exec(statement)
+    user_db = results.first()
+    if user_db:
+        raise HTTPException(status_code=404, detail="User with the email is already registred")
+    user.password = Hash.bcrypt(user.password)
+    db_user = User.from_orm(user)
+    session.add(db_user)
+    session.commit()
+    session.refresh(db_user)
+    return db_user
 
 
 @router.post('/login', response_description='Login into API',
