@@ -6,6 +6,8 @@ from database import User, UserRead, UserCreate, get_session
 from auth_token import create_access_token, Token
 from hashing import Hash
 
+from datetime import datetime
+
 router = APIRouter(
     tags=['authentication'],
 )
@@ -19,6 +21,7 @@ def create_user(*, session: Session = Depends(get_session), user: UserCreate):
         raise HTTPException(status_code=404, detail="User with the email is already registred")
     user.password = Hash.bcrypt(user.password)
     db_user = User.from_orm(user)
+    setattr(db_user, 'created_at', datetime.utcnow())
     session.add(db_user)
     session.commit()
     session.refresh(db_user)

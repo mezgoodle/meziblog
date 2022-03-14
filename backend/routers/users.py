@@ -2,9 +2,8 @@ from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlmodel import Session, select
 from pydantic import EmailStr
 
-from database import UserCreate, UserRead, User, UserUpdate, get_session
+from database import UserRead, User, UserUpdate, get_session
 
-from hashing import Hash
 from oauth import get_current_user
 
 from typing import List
