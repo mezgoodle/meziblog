@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Login from "../components/Login";
+import Register from "../components/Register";
 
 export default function user() {
   const router = useRouter();
@@ -35,6 +37,7 @@ export default function user() {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (newPassword === newSecondPassword) {
+      console.log(newEmail, newName, newPassword);
     } else setEqual(false);
   };
 
@@ -76,35 +79,7 @@ export default function user() {
           role="tabpanel"
           aria-labelledby="tab-login"
         >
-          <form onSubmit={handleLogin}>
-            <div className="form-outline mb-4">
-              <input
-                type="email"
-                id="loginName"
-                className="form-control"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <label className="form-label" htmlFor="loginName">
-                Email or username
-              </label>
-            </div>
-
-            <div className="form-outline mb-4">
-              <input
-                type="password"
-                id="loginPassword"
-                className="form-control"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <label className="form-label" htmlFor="loginPassword">
-                Password
-              </label>
-            </div>
-
-            <button type="submit" className="btn btn-primary btn-block mb-4">
-              Sign in
-            </button>
-          </form>
+          <Login {...{ handleLogin, setEmail, setPassword }} />
         </div>
         <div
           className="tab-pane fade"
@@ -112,56 +87,16 @@ export default function user() {
           role="tabpanel"
           aria-labelledby="tab-register"
         >
-          <form onSubmit={handleRegister}>
-            <div className="form-outline mb-4">
-              <input type="text" id="registerName" className="form-control" />
-              <label className="form-label" htmlFor="registerName">
-                Name
-              </label>
-            </div>
-
-            <div className="form-outline mb-4">
-              <input type="email" id="registerEmail" className="form-control" />
-              <label className="form-label" htmlFor="registerEmail">
-                Email
-              </label>
-            </div>
-
-            <div className="form-outline mb-4">
-              <input
-                type="password"
-                id="registerPassword"
-                className="form-control"
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-              <label className="form-label" htmlFor="registerPassword">
-                Password
-              </label>
-            </div>
-
-            <div className="form-outline mb-4">
-              <input
-                type="password"
-                id="registerRepeatPassword"
-                className="form-control"
-                onChange={(e) => setNewSecondPassword(e.target.value)}
-              />
-              <label className="form-label" htmlFor="registerRepeatPassword">
-                Repeat password
-              </label>
-              {equalPassword ? (
-                ""
-              ) : (
-                <div className="form-text text-danger">
-                  Password are not equal
-                </div>
-              )}
-            </div>
-
-            <button type="submit" className="btn btn-primary btn-block mb-3">
-              Register
-            </button>
-          </form>
+          <Register
+            {...{
+              handleRegister,
+              setNewName,
+              setNewEmail,
+              setNewPassword,
+              setNewSecondPassword,
+              equalPassword,
+            }}
+          />
         </div>
       </div>
     </>
