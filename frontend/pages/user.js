@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import Error from "../components/Error";
 
 export default function user() {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function user() {
   const [newSecondPassword, setNewSecondPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [equalPassword, setEqual] = useState(true);
+  const [error, setError] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -33,7 +35,7 @@ export default function user() {
       const data = await response.json();
 
       if (!response.ok) {
-        console.error(data.detail);
+        setError(data.detail);
       } else {
         handleLogin();
       }
@@ -61,7 +63,7 @@ export default function user() {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error(data.detail);
+      setError(data.detail);
     } else {
       localStorage.setItem("token", data.access_token);
       router.push("/");
@@ -100,6 +102,14 @@ export default function user() {
       </ul>
 
       <div className="tab-content">
+        {error ? (
+          <Error
+            text={`Error happend: ${error}. Maybe token has been expired`}
+          />
+        ) : (
+          ""
+        )}
+
         <div
           className="tab-pane fade show active"
           id="pills-login"

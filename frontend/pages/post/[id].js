@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import PostBody from "../../components/PostBody";
 import EditPost from "../../components/EditPost";
 import { EditContext } from "../../context/EditContext";
+import Error from "../../components/Error";
 
 export default function Post({ data }) {
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function Post({ data }) {
   const [editable, setEditable] = useState(false);
   const [post, setPost] = useState({});
   const [token, setToken] = useState(undefined);
+  const [error, setError] = useState("");
 
   const requestOptions = {
     headers: {
@@ -30,8 +32,10 @@ export default function Post({ data }) {
         body: JSON.stringify({ title, body, author_name: author }),
       });
       const updatedPost = await response.json();
-      setPost(updatedPost);
-      [setTitle, setBody, setAuthor].forEach((setState) => setState(""));
+      if (response.ok) {
+        setPost(updatedPost);
+        [setTitle, setBody, setAuthor].forEach((setState) => setState(""));
+      } else setError(updatedPost.detail);
     }
     setEditable(!editable);
   };
@@ -42,6 +46,7 @@ export default function Post({ data }) {
       method: "DELETE",
     });
     if (response.ok) router.push("/");
+    else setError("Unexpected error.");
   };
 
   useEffect(() => {
@@ -67,6 +72,13 @@ export default function Post({ data }) {
                     alt=""
                   />
                 </div>
+                {error ? (
+                  <Error
+                    text={`Error happend: ${error}. Maybe your token has been expired.`}
+                  />
+                ) : (
+                  ""
+                )}
                 <div className="card mb-4 wow fadeIn">
                   {!editable ? (
                     <PostBody post={post} />

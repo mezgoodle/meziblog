@@ -9,6 +9,7 @@ export default function Post() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [token, setToken] = useState(undefined);
+  const [error, setError] = useState("");
 
   const handleCreate = async () => {
     const response = await fetch("http://127.0.0.1:8000/posts", {
@@ -20,7 +21,9 @@ export default function Post() {
       body: JSON.stringify({ title, body }),
     });
     const createdPost = await response.json();
-    router.push(`/post/${createdPost.id}`);
+    if (response.ok) {
+      router.push(`/post/${createdPost.id}`);
+    } else setError(createdPost.detail);
   };
 
   useEffect(() => {
@@ -40,6 +43,13 @@ export default function Post() {
                   alt=""
                 />
               </div>
+              {error ? (
+                <Error
+                  text={`Error happened: ${error}. Maybe your token has been expired.`}
+                />
+              ) : (
+                ""
+              )}
               {!token ? <Error text={"You are not authorized"} /> : ""}
               <div className="card mb-4 wow fadeIn">
                 <form className="card-body">
