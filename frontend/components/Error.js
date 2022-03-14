@@ -24,9 +24,9 @@ export default function Error({ text }) {
         />
       </svg>
       <div className="ms-1">
-        {text}. Go to{" "}
+        {text}.
         <Link href={"/user"}>
-          <a className="alert-link">login</a>
+          <a className="alert-link"> Login</a>
         </Link>{" "}
         page
       </div>
