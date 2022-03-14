@@ -6,8 +6,13 @@ export default function user() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newName, setNewName] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newSecondPassword, setNewSecondPassword] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [equalPassword, setEqual] = useState(true);
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const requestOptions = {
       method: "POST",
@@ -25,6 +30,12 @@ export default function user() {
       localStorage.setItem("token", data.access_token);
       router.push("/");
     }
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (newPassword === newSecondPassword) {
+    } else setEqual(false);
   };
 
   return (
@@ -65,7 +76,7 @@ export default function user() {
           role="tabpanel"
           aria-labelledby="tab-login"
         >
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLogin}>
             <div className="form-outline mb-4">
               <input
                 type="email"
@@ -101,7 +112,7 @@ export default function user() {
           role="tabpanel"
           aria-labelledby="tab-register"
         >
-          <form>
+          <form onSubmit={handleRegister}>
             <div className="form-outline mb-4">
               <input type="text" id="registerName" className="form-control" />
               <label className="form-label" htmlFor="registerName">
@@ -121,6 +132,7 @@ export default function user() {
                 type="password"
                 id="registerPassword"
                 className="form-control"
+                onChange={(e) => setNewPassword(e.target.value)}
               />
               <label className="form-label" htmlFor="registerPassword">
                 Password
@@ -132,14 +144,22 @@ export default function user() {
                 type="password"
                 id="registerRepeatPassword"
                 className="form-control"
+                onChange={(e) => setNewSecondPassword(e.target.value)}
               />
               <label className="form-label" htmlFor="registerRepeatPassword">
                 Repeat password
               </label>
+              {equalPassword ? (
+                ""
+              ) : (
+                <div className="form-text text-danger">
+                  Password are not equal
+                </div>
+              )}
             </div>
 
             <button type="submit" className="btn btn-primary btn-block mb-3">
-              Sign in
+              Register
             </button>
           </form>
         </div>
