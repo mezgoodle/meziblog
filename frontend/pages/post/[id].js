@@ -108,10 +108,23 @@ export default function Post({ data }) {
   );
 }
 
-export async function getServerSideProps({ params: { id } }) {
+export async function getStaticProps({ params: { id } }) {
   const response = await fetch(`http://127.0.0.1:8000/post/${id}`);
   const data = await response.json();
   return {
     props: { data },
+  };
+}
+
+export async function getStaticPaths() {
+  const response = await fetch("http://127.0.0.1:8000/posts");
+  const posts = await response.json();
+
+  const ids = posts.map((post) => post.id);
+  const paths = ids.map((id) => ({ params: { id: id.toString() } }));
+
+  return {
+    paths,
+    fallback: false,
   };
 }
