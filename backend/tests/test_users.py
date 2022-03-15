@@ -18,7 +18,7 @@ access_token = get_token()
 
 def test_get_user():
     response = client.get(
-        "/post/user@example.com", headers={"Authorization": f"Bearer {access_token}"}
+        "/user/user@example.com", headers={"Authorization": f"Bearer {access_token}"}
     )
     assert response.status_code == 200
 
