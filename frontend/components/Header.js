@@ -35,7 +35,7 @@ export default function Header() {
         setUser(data.name);
       }
     }
-  });
+  }, [token]);
 
   return (
     <nav className="navbar navbar-expand-lg bg-primary navbar-dark">
