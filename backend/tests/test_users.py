@@ -28,6 +28,13 @@ def test_get_users():
     assert response.status_code == 200
 
 
+def test_get_me():
+    response = client.get(
+        "/user/me", headers={"Authorization": f"Bearer {access_token}"}
+    )
+    assert response.status_code == 200
+
+
 def test_post_user():
     response = client.post(
         "/register",

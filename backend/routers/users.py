@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Query
+from fastapi import APIRouter, HTTPException, Depends, Query, status
 from sqlmodel import Session, select
 from pydantic import EmailStr
 
@@ -10,24 +10,27 @@ from typing import List
 
 
 router = APIRouter(
-    prefix='/user',
-    tags=['users'],
-    dependencies=[Depends(get_current_user)]
+    prefix="/user", tags=["users"], dependencies=[Depends(get_current_user)]
 )
 
 
-@router.get("s", response_model=List[UserRead])
-async def read_users(*, session: Session = Depends(get_session), offset: int = 0, limit: int = Query(default=100, lte=100)):
+@router.get("s", response_model=List[UserRead], status_code=status.HTTP_200_OK)
+async def read_users(
+    *,
+    session: Session = Depends(get_session),
+    offset: int = 0,
+    limit: int = Query(default=100, lte=100)
+):
     users = session.exec(select(User).offset(offset).limit(limit)).all()
     return users
 
 
-@router.get("/me", response_model=UserRead)
-async def read_users_me(current_user = Depends(get_current_user)):
+@router.get("/me", response_model=UserRead, status_code=status.HTTP_200_OK)
+async def read_users_me(current_user=Depends(get_current_user)):
     return current_user
 
 
-@router.get("/{user_email}", response_model=UserRead)
+@router.get("/{user_email}", response_model=UserRead, status_code=status.HTTP_200_OK)
 async def read_user(*, session: Session = Depends(get_session), user_email: EmailStr):
     statement = select(User).where(User.email == user_email)
     results = session.exec(statement)
@@ -37,8 +40,12 @@ async def read_user(*, session: Session = Depends(get_session), user_email: Emai
     return user
 
 
-@router.patch("/{user_email}", response_model=UserRead)
-async def update_post(*, session: Session = Depends(get_session), user_email: EmailStr, user: UserUpdate):
+@router.patch(
+    "/{user_email}", response_model=UserRead, status_code=status.HTTP_202_ACCEPTED
+)
+async def update_post(
+    *, session: Session = Depends(get_session), user_email: EmailStr, user: UserUpdate
+):
     statement = select(User).where(User.email == user_email)
     results = session.exec(statement)
     db_user = results.first()
@@ -53,7 +60,7 @@ async def update_post(*, session: Session = Depends(get_session), user_email: Em
     return db_user
 
 
-@router.delete("/{user_email}")
+@router.delete("/{user_email}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_post(*, session: Session = Depends(get_session), user_email: EmailStr):
     statement = select(User).where(User.email == user_email)
     results = session.exec(statement)
