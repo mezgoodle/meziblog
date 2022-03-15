@@ -31,7 +31,7 @@ def test_get_users():
 def test_post_user():
     response = client.post(
         "/register",
-        json={{"name": "string", "email": "user1@example.com", "password": "string"}},
+        json={"name": "string", "email": "user1@example.com", "password": "string"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
     assert response.status_code == 201
