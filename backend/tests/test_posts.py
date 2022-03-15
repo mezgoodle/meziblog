@@ -45,7 +45,7 @@ def test_update_post():
         '/login',
         data={'username': "user@example.com", 'password': "string"})
     access_token = token_response.json()['access_token']
-    response = client.put(
+    response = client.patch(
         '/post/5',
         json={
             "author_name": "mezgoodle1"
