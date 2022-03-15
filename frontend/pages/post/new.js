@@ -29,7 +29,7 @@ export default function Post() {
 
   useEffect(() => {
     setToken(localStorage.token);
-  });
+  }, []);
 
   return (
     <main className="mt-3 pt-3">
@@ -40,8 +40,8 @@ export default function Post() {
               <div className="card mb-4 wow fadeIn">
                 <img
                   src="https://mdbootstrap.com/img/Photos/Slides/img%20(144).jpg"
+                  alt="image"
                   className="img-fluid"
-                  alt=""
                 />
               </div>
               {error ? (

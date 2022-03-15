@@ -69,7 +69,7 @@ export default function Post({ data }) {
                   <img
                     src="https://mdbootstrap.com/img/Photos/Slides/img%20(144).jpg"
                     className="img-fluid"
-                    alt=""
+                    alt="image"
                   />
                 </div>
                 {error ? (

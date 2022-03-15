@@ -4,7 +4,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import Error from "../components/Error";
 
-export default function user() {
+export default function User() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
