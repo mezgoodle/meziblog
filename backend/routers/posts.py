@@ -13,7 +13,7 @@ router = APIRouter(
     tags=['posts'],
 )
 
-@router.post("s", response_model=PostRead)
+@router.post("", response_model=PostRead)
 async def create_post(*, session: Session = Depends(get_session), post: PostCreate, user: UserRead = Depends(get_current_user)):
     setattr(post, 'author_name', user.name)
     db_post = Post.from_orm(post)
