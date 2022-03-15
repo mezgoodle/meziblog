@@ -283,5 +283,4 @@ dmypy.json
 cython_debug/
 
 # SQLite databases
-*.db
 *.sqlite3
