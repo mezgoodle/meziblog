@@ -12,10 +12,7 @@ app.include_router(posts.router)
 app.include_router(users.router)
 app.include_router(authentication.router)
 
-origins = [
-    "http://localhost", 
-    "http://localhost:3000"
-]
+origins = ["http://localhost", "http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -24,6 +21,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.on_event("startup")
 def on_startup():
@@ -35,5 +33,5 @@ async def root():
     return {"message": "Hello World"}
 
 
-if __name__ == '__main__':
-    uvicorn.run('main:app', reload=True)
+if __name__ == "__main__":
+    uvicorn.run("main:app", reload=True)

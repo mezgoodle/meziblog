@@ -7,9 +7,9 @@ from pydantic import EmailStr
 
 class PostBase(SQLModel):
     title: str = Field(index=True)
-    author_name: Optional[str] = Field(default='mezgoodle')
+    author_name: Optional[str] = Field(default="mezgoodle")
     body: str
-    
+
 
 class Post(PostBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -37,7 +37,7 @@ class UserBase(SQLModel):
     name: str = Field(...)
     email: EmailStr = Field(...)
     password: str = Field(...)
-    
+
 
 class User(UserBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
