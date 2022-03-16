@@ -9,6 +9,7 @@ export default function Header() {
 
   const logout = () => {
     localStorage.removeItem("token");
+    setToken(undefined);
     router.push("/");
   };
 
