@@ -13,7 +13,7 @@ app.include_router(posts.router)
 app.include_router(users.router)
 app.include_router(authentication.router)
 
-origins = ["http://localhost", "http://localhost:3000"]
+origins = ["https://meziblog.vercel.app", "https://meziblog.vercel.app:3000"]
 
 app.add_middleware(
     CORSMiddleware,
