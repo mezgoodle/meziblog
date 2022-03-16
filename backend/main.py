@@ -31,7 +31,7 @@ def on_startup():
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Visit the /docs page"}
 
 
 if __name__ == "__main__":

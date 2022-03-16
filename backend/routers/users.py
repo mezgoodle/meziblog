@@ -26,7 +26,7 @@ async def read_users(
 
 
 @router.get("/me", response_model=UserRead, status_code=status.HTTP_200_OK)
-async def read_users_me(current_user=Depends(get_current_user)):
+async def read_current_user(current_user=Depends(get_current_user)):
     return current_user
 
 
@@ -43,7 +43,7 @@ async def read_user(*, session: Session = Depends(get_session), user_email: Emai
 @router.patch(
     "/{user_email}", response_model=UserRead, status_code=status.HTTP_202_ACCEPTED
 )
-async def update_post(
+async def update_user(
     *, session: Session = Depends(get_session), user_email: EmailStr, user: UserUpdate
 ):
     statement = select(User).where(User.email == user_email)
@@ -61,7 +61,7 @@ async def update_post(
 
 
 @router.delete("/{user_email}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_post(*, session: Session = Depends(get_session), user_email: EmailStr):
+async def delete_user(*, session: Session = Depends(get_session), user_email: EmailStr):
     statement = select(User).where(User.email == user_email)
     results = session.exec(statement)
     user = results.first()

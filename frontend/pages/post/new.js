@@ -13,7 +13,7 @@ export default function Post() {
   const [error, setError] = useState("");
 
   const handleCreate = async () => {
-    const response = await fetch("http://127.0.0.1:8000/post", {
+    const response = await fetch("https://meziblog.herokuapp.com/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

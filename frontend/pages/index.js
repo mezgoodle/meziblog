@@ -19,7 +19,7 @@ export default function Home({ posts }) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch("http://127.0.0.1:8000/posts");
+  const response = await fetch("https://meziblog.herokuapp.com/posts");
   const posts = await response.json();
   return {
     props: { posts: posts.sort(sortByDate) },

@@ -29,7 +29,7 @@ export default function User() {
         }),
       };
       const response = await fetch(
-        "http://127.0.0.1:8000/register",
+        "https://meziblog.herokuapp.com/register",
         requestOptions
       );
       const data = await response.json();
@@ -59,7 +59,10 @@ export default function User() {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body,
     };
-    const response = await fetch("http://127.0.0.1:8000/login", requestOptions);
+    const response = await fetch(
+      "https://meziblog.herokuapp.com/login",
+      requestOptions
+    );
     const data = await response.json();
 
     if (!response.ok) {

@@ -26,11 +26,14 @@ export default function Post({ data }) {
 
   const handleEdit = async () => {
     if (editable) {
-      const response = await fetch(`http://127.0.0.1:8000/post/${post.id}/`, {
-        ...requestOptions,
-        method: "PATCH",
-        body: JSON.stringify({ title, body, author_name: author }),
-      });
+      const response = await fetch(
+        `https://meziblog.herokuapp.com/post/${post.id}/`,
+        {
+          ...requestOptions,
+          method: "PATCH",
+          body: JSON.stringify({ title, body, author_name: author }),
+        }
+      );
       const updatedPost = await response.json();
       if (response.ok) {
         setPost(updatedPost);
@@ -41,10 +44,13 @@ export default function Post({ data }) {
   };
 
   const handleDelete = async () => {
-    const response = await fetch(`http://127.0.0.1:8000/post/${post.id}`, {
-      ...requestOptions,
-      method: "DELETE",
-    });
+    const response = await fetch(
+      `https://meziblog.herokuapp.com/post/${post.id}`,
+      {
+        ...requestOptions,
+        method: "DELETE",
+      }
+    );
     if (response.ok) router.push("/");
     else setError("Unexpected error.");
   };
@@ -130,7 +136,7 @@ export default function Post({ data }) {
 }
 
 export async function getStaticProps({ params: { id } }) {
-  const response = await fetch(`http://127.0.0.1:8000/post/${id}`);
+  const response = await fetch(`https://meziblog.herokuapp.com/post/${id}`);
   const data = await response.json();
   return {
     props: { data },
@@ -138,7 +144,7 @@ export async function getStaticProps({ params: { id } }) {
 }
 
 export async function getStaticPaths() {
-  const response = await fetch("http://127.0.0.1:8000/posts");
+  const response = await fetch("https://meziblog.herokuapp.com/posts");
   const posts = await response.json();
 
   const ids = posts.map((post) => post.id);
