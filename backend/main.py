@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import create_db_and_tables
 from routers import posts, users, authentication
 
+import os
 
 app = FastAPI()
 
@@ -34,4 +35,4 @@ async def root():
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", reload=True)
+    uvicorn.run("main:app", reload=True, port=os.getenv("PORT", 5000))
