@@ -76,12 +76,8 @@ npm run dev
 
 ## Contribute :running:
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Also look at the [CONTRIBUTING.md](link).
-
-## Credits :cat::handshake:
-
-Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Also look at the [CONTRIBUTING.md](https://github.com/mezgoodle/meziblog/blob/master/CONTRIBUTING.md).
 
 ## License :bookmark:
 
-MIT © [Yourname]()
+MIT © [mezgoodle](https://github.com/mezgoodle)
