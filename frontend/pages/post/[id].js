@@ -135,23 +135,10 @@ export default function Post({ data }) {
   );
 }
 
-export async function getStaticProps({ params: { id } }) {
+export async function getServerSideProps({ params: { id } }) {
   const response = await fetch(`https://meziblog.herokuapp.com/post/${id}`);
   const data = await response.json();
   return {
     props: { data },
-  };
-}
-
-export async function getStaticPaths() {
-  const response = await fetch("https://meziblog.herokuapp.com/posts");
-  const posts = await response.json();
-
-  const ids = posts.map((post) => post.id);
-  const paths = ids.map((id) => ({ params: { id: id.toString() } }));
-
-  return {
-    paths,
-    fallback: false,
   };
 }
