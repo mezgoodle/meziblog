@@ -5,8 +5,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import create_db_and_tables
 from routers import posts, users, authentication
 
-import os
-
 app = FastAPI()
 
 app.include_router(posts.router)
