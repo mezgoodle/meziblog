@@ -6,7 +6,7 @@ export default function Footer() {
           <a
             className="btn btn-primary btn-floating m-1"
             style={{ backgroundColor: "#3b5998" }}
-            href="#!"
+            href="https://www.facebook.com/profile.php?id=100005721694357"
             role="button"
           >
             <i className="fab fa-facebook-f"></i>
@@ -14,26 +14,8 @@ export default function Footer() {
 
           <a
             className="btn btn-primary btn-floating m-1"
-            style={{ backgroundCcolor: "#55acee" }}
-            href="#!"
-            role="button"
-          >
-            <i className="fab fa-twitter"></i>
-          </a>
-
-          <a
-            className="btn btn-primary btn-floating m-1"
-            style={{ backgroundColor: "#dd4b39" }}
-            href="#!"
-            role="button"
-          >
-            <i className="fab fa-google"></i>
-          </a>
-
-          <a
-            className="btn btn-primary btn-floating m-1"
             style={{ backgroundColor: "#ac2bac" }}
-            href="#!"
+            href="https://www.instagram.com/sylvenis/"
             role="button"
           >
             <i className="fab fa-instagram"></i>
@@ -41,16 +23,8 @@ export default function Footer() {
 
           <a
             className="btn btn-primary btn-floating m-1"
-            style={{ backgroundColor: "#0082ca" }}
-            href="#!"
-            role="button"
-          >
-            <i className="fab fa-linkedin-in"></i>
-          </a>
-          <a
-            className="btn btn-primary btn-floating m-1"
             style={{ backgroundColor: "#333333" }}
-            href="#!"
+            href="https://github.com/mezgoodle"
             role="button"
           >
             <i className="fab fa-github"></i>
@@ -59,10 +33,8 @@ export default function Footer() {
 
         <section className="mb-4">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-            distinctio earum repellat quaerat voluptatibus placeat nam, commodi
-            optio pariatur est quia magnam eum harum corrupti dicta, aliquam
-            sequi voluptate quas.
+            It's a test blog application on Next.js + FastAPI. You can find code
+            on my GitHub page.
           </p>
         </section>
       </div>
@@ -71,9 +43,9 @@ export default function Footer() {
         className="text-center p-3"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
       >
-        © 2020 Copyright:
-        <a className="text-dark" href="https://mdbootstrap.com/">
-          MDBootstrap.com
+        © 2022 Copyright:
+        <a className="text-dark" href="https://github.com/mezgoodle">
+          mezgoodle
         </a>
       </div>
     </footer>

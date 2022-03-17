@@ -16,12 +16,12 @@ export default function EditPost({ post }) {
       <div className="mb-4">
         <input
           type="text"
-          id="form1Example1"
+          id="title"
           className="form-control"
           defaultValue={post.title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <label className="form-label" htmlFor="form1Example1">
+        <label className="form-label" htmlFor="title">
           Title
         </label>
       </div>
@@ -29,12 +29,12 @@ export default function EditPost({ post }) {
       <div className="mb-4">
         <input
           type="text"
-          id="form1Example2"
+          id="body"
           className="form-control"
           defaultValue={post.body}
           onChange={(e) => setBody(e.target.value)}
         />
-        <label className="form-label" htmlFor="form1Example2">
+        <label className="form-label" htmlFor="body">
           Body
         </label>
       </div>
@@ -42,12 +42,12 @@ export default function EditPost({ post }) {
       <div className="mb-4">
         <input
           type="text"
-          id="form1Example3"
+          id="name"
           className="form-control"
           defaultValue={post.author_name}
           onChange={(e) => setAuthor(e.target.value)}
         />
-        <label className="form-label" htmlFor="form1Example3">
+        <label className="form-label" htmlFor="name">
           Author name
         </label>
       </div>
