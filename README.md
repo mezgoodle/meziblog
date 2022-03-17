@@ -14,7 +14,7 @@
 
 ## Motivation :exclamation:
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+Once upon a time I tried to make a [django](https://www.djangoproject.com/) + [react](https://uk.reactjs.org/) project. And then decide to replace django with [fastapi](https://fastapi.tiangolo.com/). So I will still hand over this project to the university.
 
 ## Build status :hammer:
 
@@ -25,7 +25,25 @@ Here you can see build status of [continuous integration](https://en.wikipedia.o
 
 ## Screenshots :camera:
 
-Include logo/demo screenshot etc.
+- Start page
+
+![start page](https://raw.githubusercontent.com/mezgoodle/images/master/meziblog1.png)
+
+- New post page
+
+![start page](https://raw.githubusercontent.com/mezgoodle/images/master/meziblog2.png)
+
+- Login page
+
+![start page](https://raw.githubusercontent.com/mezgoodle/images/master/meziblog3.png)
+
+- Post page
+
+![start page](https://raw.githubusercontent.com/mezgoodle/images/master/meziblog4.png)
+
+- API page
+
+![start page](https://raw.githubusercontent.com/mezgoodle/images/master/meziblog5.png)
 
 ## Tech/framework used :wrench:
 
