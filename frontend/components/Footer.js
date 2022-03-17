@@ -33,8 +33,8 @@ export default function Footer() {
 
         <section className="mb-4">
           <p>
-            It's a test blog application on Next.js + FastAPI. You can find code
-            on my GitHub page.
+            It is a test blog application on Next.js + FastAPI. You can find
+            code on my GitHub page.
           </p>
         </section>
       </div>
