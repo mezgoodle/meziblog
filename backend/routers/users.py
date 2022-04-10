@@ -66,9 +66,9 @@ async def update_user(
 
 @router.delete("/{user_email}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(
-    *, 
-    session: Session = Depends(get_session), 
-    user_email: EmailStr, 
+    *,
+    session: Session = Depends(get_session),
+    user_email: EmailStr,
     current_user=Depends(get_current_user)
 ):
     if current_user.email not in ADMINS_EMAILS:
