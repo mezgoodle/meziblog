@@ -32,7 +32,7 @@ def test_post_post():
         '/post',
         json={
             "title": "test string",
-            "author_name": "mezgoodle",
+            "author_name": "string_1",
             "body": "test string"
         },
         headers={'Authorization': f'Bearer {access_token}'}
@@ -48,7 +48,7 @@ def test_update_post():
     response = client.patch(
         '/post/5',
         json={
-            "author_name": "mezgoodle1"
+            "author_name": "string"
         },
         headers={'Authorization': f'Bearer {access_token}'}
     )

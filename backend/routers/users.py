@@ -3,6 +3,7 @@ from sqlmodel import Session, select
 from pydantic import EmailStr
 
 from database import UserRead, User, UserUpdate, get_session
+from config import ADMINS_EMAILS
 
 from oauth import get_current_user
 
@@ -46,6 +47,8 @@ async def read_user(*, session: Session = Depends(get_session), user_email: Emai
 async def update_user(
     *, session: Session = Depends(get_session), user_email: EmailStr, user: UserUpdate
 ):
+    if user_email not in ADMINS_EMAILS:
+        raise HTTPException(status_code=403, detail="Not allowed")
     statement = select(User).where(User.email == user_email)
     results = session.exec(statement)
     db_user = results.first()
@@ -62,6 +65,8 @@ async def update_user(
 
 @router.delete("/{user_email}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(*, session: Session = Depends(get_session), user_email: EmailStr):
+    if user_email not in ADMINS_EMAILS:
+        raise HTTPException(status_code=403, detail="Not allowed")
     statement = select(User).where(User.email == user_email)
     results = session.exec(statement)
     user = results.first()

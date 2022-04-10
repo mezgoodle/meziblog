@@ -6,6 +6,7 @@ from sqlmodel import Session, select
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
+from config import ADMINS_EMAILS
 
 
 router = APIRouter(
@@ -58,12 +59,14 @@ async def update_post(
     session: Session = Depends(get_session),
     post_id: int,
     post: PostUpdate,
-    _=Depends(get_current_user)
+    current_user=Depends(get_current_user)
 ):
     db_post = session.get(Post, post_id)
     if not db_post:
         raise HTTPException(status_code=404, detail="Post not found")
     post_data = post.dict(exclude_unset=True)
+    if current_user.name != db_post.author_name:
+        raise HTTPException(status_code=403, detail="Forbidden")
     for key, value in post_data.items():
         setattr(db_post, key, value)
     setattr(db_post, "updated_at", datetime.utcnow())
@@ -78,11 +81,13 @@ async def delete_post(
     *,
     session: Session = Depends(get_session),
     post_id: int,
-    _=Depends(get_current_user)
+    current_user=Depends(get_current_user)
 ):
     post = session.get(Post, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
+    if current_user.name != post.author_name:
+        raise HTTPException(status_code=403, detail="Forbidden")
     session.delete(post)
     session.commit()
     return {"ok": True}
