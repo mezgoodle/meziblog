@@ -39,7 +39,7 @@ def test_post_post():
         headers={'Authorization': f'Bearer {access_token}'}
     )
     assert response.status_code == 201
-    NEW_POST_ID = response.json()['id']
+    NEW_POST_ID = response.json().get('id')
 
 
 def test_update_post():
