@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from main import app
 
 client = TestClient(app)
-NEW_POST_ID: int = 5
+NEW_POST_ID: int = None
 
 
 def test_get_post():
@@ -38,11 +38,10 @@ def test_post_post():
         },
         headers={'Authorization': f'Bearer {access_token}'}
     )
+    global NEW_POST_ID
+    NEW_POST_ID = response.json()['id']
     assert response.status_code == 201
-    print(response.json())
-    print(response.json()['id'])
-    print(response.__dict__)
-    print(response.json().__dict__)
+
 
 
 def test_update_post():
