@@ -11,7 +11,7 @@ from typing import List
 
 
 router = APIRouter(
-    prefix="/user", tags=["users"], dependencies=[Depends(get_current_user)]
+    prefix="/user", tags=["users"]
 )
 
 
@@ -20,7 +20,8 @@ async def read_users(
     *,
     session: Session = Depends(get_session),
     offset: int = 0,
-    limit: int = Query(default=100, lte=100)
+    limit: int = Query(default=100, lte=100),
+    _=Depends(get_current_user)
 ):
     users = session.exec(select(User).offset(offset).limit(limit)).all()
     return users
@@ -32,7 +33,7 @@ async def read_current_user(current_user=Depends(get_current_user)):
 
 
 @router.get("/{user_email}", response_model=UserRead, status_code=status.HTTP_200_OK)
-async def read_user(*, session: Session = Depends(get_session), user_email: EmailStr):
+async def read_user(*, session: Session = Depends(get_session), user_email: EmailStr, _=Depends(get_current_user)):
     statement = select(User).where(User.email == user_email)
     results = session.exec(statement)
     user = results.first()
@@ -45,9 +46,9 @@ async def read_user(*, session: Session = Depends(get_session), user_email: Emai
     "/{user_email}", response_model=UserRead, status_code=status.HTTP_202_ACCEPTED
 )
 async def update_user(
-    *, session: Session = Depends(get_session), user_email: EmailStr, user: UserUpdate
+    *, session: Session = Depends(get_session), user_email: EmailStr, user: UserUpdate, current_user=Depends(get_current_user)
 ):
-    if user_email not in ADMINS_EMAILS:
+    if current_user.email not in ADMINS_EMAILS:
         raise HTTPException(status_code=403, detail="Not allowed")
     statement = select(User).where(User.email == user_email)
     results = session.exec(statement)
@@ -64,8 +65,8 @@ async def update_user(
 
 
 @router.delete("/{user_email}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_user(*, session: Session = Depends(get_session), user_email: EmailStr):
-    if user_email not in ADMINS_EMAILS:
+async def delete_user(*, session: Session = Depends(get_session), user_email: EmailStr, current_user=Depends(get_current_user)):
+    if current_user.email not in ADMINS_EMAILS:
         raise HTTPException(status_code=403, detail="Not allowed")
     statement = select(User).where(User.email == user_email)
     results = session.exec(statement)
