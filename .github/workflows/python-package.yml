@@ -37,3 +37,6 @@ jobs:
       - name: Test with pytest
         run: |
           pytest --tb=long
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          ALGORITHM: ${{ secrets.ALGORITHM }}
