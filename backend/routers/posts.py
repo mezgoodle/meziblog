@@ -6,7 +6,6 @@ from sqlmodel import Session, select
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
-from config import ADMINS_EMAILS
 
 
 router = APIRouter(
