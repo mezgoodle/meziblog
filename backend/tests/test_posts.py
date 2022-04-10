@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from main import app
 
 client = TestClient(app)
-NEW_POST_ID: int = None
+NEW_POST_ID: int = 5
 
 
 def test_get_post():
