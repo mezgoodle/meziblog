@@ -3,6 +3,7 @@ from fastapi.testclient import TestClient
 from main import app
 
 client = TestClient(app)
+NEW_POST_ID: int = None
 
 
 def test_get_post():
@@ -38,6 +39,7 @@ def test_post_post():
         headers={'Authorization': f'Bearer {access_token}'}
     )
     assert response.status_code == 201
+    NEW_POST_ID = response.json()['id']
 
 
 def test_update_post():
@@ -46,7 +48,7 @@ def test_update_post():
         data={'username': "user@example.com", 'password': "string"})
     access_token = token_response.json()['access_token']
     response = client.patch(
-        '/post/5',
+        f'/post/{NEW_POST_ID}',
         json={
             "author_name": "string"
         },
@@ -61,7 +63,7 @@ def test_delete_post():
         data={'username': "user@example.com", 'password': "string"})
     access_token = token_response.json()['access_token']
     response = client.delete(
-        '/post/5',
+        f'/post/{NEW_POST_ID}',
         headers={'Authorization': f'Bearer {access_token}'}
     )
     assert response.status_code == 204
