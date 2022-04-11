@@ -65,10 +65,10 @@ export default function Post({ data }) {
     });
     if (response.ok) {
       const fetchData = await response.json();
-      console.info(fetchData.name);
-      console.info(data.author_name);
+      console.info(fetchData.name, typeof fetchData.name);
+      console.info(data.author_name, typeof data.author_name);
       console.info(fetchData.name === post.author_name);
-      setIsAuthor(post.author_name === fetchData.name);
+      setIsAuthor(post.author_name == fetchData.name);
     }
   };
 
