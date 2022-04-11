@@ -16,7 +16,7 @@ export default function Post({ data }) {
   const [post, setPost] = useState({});
   const [token, setToken] = useState(undefined);
   const [error, setError] = useState("");
-  const [userName, setUserName] = useState("");
+  const [isAuthor, setIsAuthor] = useState(false);
 
   const requestOptions = {
     headers: {
@@ -65,7 +65,7 @@ export default function Post({ data }) {
     });
     if (response.ok) {
       const data = await response.json();
-      setUserName(data.name);
+      setIsAuthor(post.author_name === data.name);
     }
   };
 
@@ -117,7 +117,7 @@ export default function Post({ data }) {
                         </button>
                       </a>
                     </Link>
-                    {token && userName ? (
+                    {token && isAuthor ? (
                       <>
                         <button
                           type="button"
