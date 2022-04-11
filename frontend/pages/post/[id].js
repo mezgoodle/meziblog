@@ -64,11 +64,11 @@ export default function Post({ data }) {
       },
     });
     if (response.ok) {
-      const data = await response.json();
-      console.info(data.name);
-      console.info(post.author_name);
-      console.info(data.name === post.author_name);
-      setIsAuthor(post.author_name === data.name);
+      const fetchData = await response.json();
+      console.info(fetchData.name);
+      console.info(data.author_name);
+      console.info(fetchData.name === post.author_name);
+      setIsAuthor(post.author_name === fetchData.name);
     }
   };
 
