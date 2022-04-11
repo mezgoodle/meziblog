@@ -16,6 +16,7 @@ export default function Post({ data }) {
   const [post, setPost] = useState({});
   const [token, setToken] = useState(undefined);
   const [error, setError] = useState("");
+  const [userName, setUserName] = useState("");
 
   const requestOptions = {
     headers: {
@@ -55,9 +56,21 @@ export default function Post({ data }) {
     else setError("Unexpected error.");
   };
 
+  const getMe = async () => {
+    const response = await fetch(
+      "https://meziblog.herokuapp.com/user/me",
+      requestOptions
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setUserName(data.name);
+    }
+  };
+
   useEffect(() => {
     setPost(data);
     setToken(localStorage.token);
+    getMe();
   }, [data]);
 
   return (
@@ -102,7 +115,7 @@ export default function Post({ data }) {
                         </button>
                       </a>
                     </Link>
-                    {token ? (
+                    {token && userName ? (
                       <>
                         <button
                           type="button"
