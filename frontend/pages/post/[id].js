@@ -57,10 +57,12 @@ export default function Post({ data }) {
   };
 
   const getMe = async () => {
-    const response = await fetch(
-      "https://meziblog.herokuapp.com/user/me",
-      requestOptions
-    );
+    const response = await fetch("https://meziblog.herokuapp.com/user/me", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    });
     if (response.ok) {
       const data = await response.json();
       setUserName(data.name);
