@@ -9,7 +9,7 @@ export default function Login({ handleLogin, setEmail, setPassword }) {
           onChange={(e) => setEmail(e.target.value)}
         />
         <label className="form-label" htmlFor="loginName">
-          Email or username
+          Email
         </label>
       </div>
 
