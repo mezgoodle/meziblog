@@ -6,7 +6,7 @@ from sqlmodel import Session, select
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
-from crud.posts import create_post_db, get_posts, get_post, patch_post
+from crud.posts import create_post_db, get_posts, get_post, patch_post, delete_post_db
 
 
 router = APIRouter(
@@ -81,11 +81,13 @@ async def delete_post(
     post_id: int,
     current_user=Depends(get_current_user)
 ):
-    post = session.get(Post, post_id)
+    post = get_post(session, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     if current_user.name != post.author_name:
         raise HTTPException(status_code=403, detail="Forbidden")
-    session.delete(post)
-    session.commit()
-    return {"ok": True}
+    try:
+        result = delete_post_db(session, post)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    return result

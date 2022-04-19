@@ -33,3 +33,9 @@ def patch_post(session: Session, post_data: dict, db_post: Post) -> Post:
     session.commit()
     session.refresh(db_post)
     return db_post
+
+
+def delete_post_db(session: Session, post: Post) -> dict:
+    session.delete(post)
+    session.commit()
+    return {"ok": True}
