@@ -23,3 +23,13 @@ def get_posts(session: Session, offset: int, limit: int) -> list:
 def get_post(session: Session, post_id: int) -> Post:
     post = session.get(Post, post_id)
     return post
+
+
+def patch_post(session: Session, post_data: dict, db_post: Post) -> Post:
+    for key, value in post_data.items():
+        setattr(db_post, key, value)
+    setattr(db_post, "updated_at", datetime.utcnow())
+    session.add(db_post)
+    session.commit()
+    session.refresh(db_post)
+    return db_post

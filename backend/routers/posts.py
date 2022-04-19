@@ -6,7 +6,7 @@ from sqlmodel import Session, select
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
-from crud.posts import create_post_db, get_posts, get_post
+from crud.posts import create_post_db, get_posts, get_post, patch_post
 
 
 router = APIRouter(
@@ -61,19 +61,17 @@ async def update_post(
     post: PostUpdate,
     current_user=Depends(get_current_user)
 ):
-    db_post = session.get(Post, post_id)
+    db_post = get_post(session, post_id)
     if not db_post:
         raise HTTPException(status_code=404, detail="Post not found")
     post_data = post.dict(exclude_unset=True)
     if current_user.name != db_post.author_name:
         raise HTTPException(status_code=403, detail="Forbidden")
-    for key, value in post_data.items():
-        setattr(db_post, key, value)
-    setattr(db_post, "updated_at", datetime.utcnow())
-    session.add(db_post)
-    session.commit()
-    session.refresh(db_post)
-    return db_post
+    try:
+        post = patch_post(session, post_data, db_post)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    return post
 
 
 @router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
