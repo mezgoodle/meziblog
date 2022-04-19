@@ -6,7 +6,13 @@ from sqlmodel import Session, select
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
-from crud.posts import create_post_db, get_posts, get_post, patch_post, delete_post_db
+from crud.operations import (
+    get_objects,
+    get_object,
+    create_object,
+    patch_object,
+    delete_object,
+)
 
 
 router = APIRouter(
@@ -23,7 +29,7 @@ async def create_post(
     user: UserRead = Depends(get_current_user)
 ):
     try:
-        post = create_post_db(session, post, user)
+        post = create_object(session, Post, post, user, True)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     return post
@@ -37,7 +43,7 @@ async def read_posts(
     limit: int = Query(default=100, lte=100)
 ):
     try:
-        posts = get_posts(session, offset, limit)
+        posts = get_objects(session, Post, offset, limit)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     return posts
@@ -45,7 +51,7 @@ async def read_posts(
 
 @router.get("/{post_id}", response_model=PostRead, status_code=status.HTTP_200_OK)
 async def read_post(*, session: Session = Depends(get_session), post_id: int):
-    post = get_post(session, post_id)
+    post = get_object(session, Post, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     return post
@@ -61,14 +67,14 @@ async def update_post(
     post: PostUpdate,
     current_user=Depends(get_current_user)
 ):
-    db_post = get_post(session, post_id)
+    db_post = get_object(session, Post, post_id)
     if not db_post:
         raise HTTPException(status_code=404, detail="Post not found")
     post_data = post.dict(exclude_unset=True)
     if current_user.name != db_post.author_name:
         raise HTTPException(status_code=403, detail="Forbidden")
     try:
-        post = patch_post(session, post_data, db_post)
+        post = patch_object(session, db_post, post_data, True)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     return post
@@ -81,13 +87,13 @@ async def delete_post(
     post_id: int,
     current_user=Depends(get_current_user)
 ):
-    post = get_post(session, post_id)
+    post = get_object(session, Post, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     if current_user.name != post.author_name:
         raise HTTPException(status_code=403, detail="Forbidden")
     try:
-        result = delete_post_db(session, post)
+        result = delete_object(session, post)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     return result
