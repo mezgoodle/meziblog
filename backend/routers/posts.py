@@ -6,7 +6,7 @@ from sqlmodel import Session, select
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
-from crud.posts import create_post_db, get_posts
+from crud.posts import create_post_db, get_posts, get_post
 
 
 router = APIRouter(
@@ -45,7 +45,7 @@ async def read_posts(
 
 @router.get("/{post_id}", response_model=PostRead, status_code=status.HTTP_200_OK)
 async def read_post(*, session: Session = Depends(get_session), post_id: int):
-    post = session.get(Post, post_id)
+    post = get_post(session, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     return post
