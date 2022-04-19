@@ -12,12 +12,12 @@ def create_object(
     model: Union[User, Post],
     request_data: Union[UserCreate, PostCreate],
     user: UserRead = None,
+    isPost: bool = False,
 ) -> dict:
-    class_name = request_data.__class__.__name__
-    if class_name == "PostCreate":
+    if isPost:
         setattr(request_data, "author_name", user.name)
     db_object = model.from_orm(request_data)
-    if class_name == "PostCreate":
+    if isPost:
         setattr(db_object, "updated_at", datetime.utcnow())
     setattr(db_object, "created_at", datetime.utcnow())
     session.add(db_object)
@@ -52,14 +52,13 @@ def get_object(
 
 def patch_object(
     session: Session,
-    model: Union[User, Post],
     old_object: Union[User, Post],
     request_data: dict,
+    isPost: bool = False,
 ) -> Union[User, Post]:
-    class_name = model.__class__.__name__
     for key, value in request_data.items():
         setattr(old_object, key, value)
-    if class_name == "Post":
+    if isPost:
         setattr(old_object, "updated_at", datetime.utcnow())
     session.add(old_object)
     session.commit()
