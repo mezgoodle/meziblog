@@ -6,6 +6,7 @@ from sqlmodel import Session, select
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
+from crud.posts import create_post_db
 
 
 router = APIRouter(
@@ -21,14 +22,11 @@ async def create_post(
     post: PostCreate,
     user: UserRead = Depends(get_current_user)
 ):
-    setattr(post, "author_name", user.name)
-    db_post = Post.from_orm(post)
-    setattr(db_post, "created_at", datetime.utcnow())
-    setattr(db_post, "updated_at", datetime.utcnow())
-    session.add(db_post)
-    session.commit()
-    session.refresh(db_post)
-    return db_post
+    try:
+        post = create_post_db(session, post, user)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    return post
 
 
 @router.get("s", response_model=List[PostRead], status_code=status.HTTP_200_OK)
