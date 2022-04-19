@@ -1,4 +1,3 @@
-from sqlalchemy import false
 from sqlmodel import Session, select
 
 from database import UserRead, PostCreate, UserCreate, User, Post

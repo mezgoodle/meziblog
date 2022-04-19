@@ -1,8 +1,7 @@
-from datetime import datetime
 from typing import List
 
 from fastapi import APIRouter, HTTPException, Query, Depends, status
-from sqlmodel import Session, select
+from sqlmodel import Session
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
