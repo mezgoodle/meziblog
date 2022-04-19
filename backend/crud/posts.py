@@ -1,4 +1,4 @@
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 from database import Post, PostCreate, UserRead
 
@@ -14,3 +14,8 @@ def create_post_db(session: Session, post: PostCreate, user: UserRead) -> Post:
     session.commit()
     session.refresh(db_post)
     return db_post
+
+
+def get_posts(session: Session, offset: int, limit: int) -> list:
+    posts = session.exec(select(Post).offset(offset).limit(limit)).all()
+    return posts

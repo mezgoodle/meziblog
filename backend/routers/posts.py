@@ -6,7 +6,7 @@ from sqlmodel import Session, select
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
-from crud.posts import create_post_db
+from crud.posts import create_post_db, get_posts
 
 
 router = APIRouter(
@@ -36,7 +36,10 @@ async def read_posts(
     offset: int = 0,
     limit: int = Query(default=100, lte=100)
 ):
-    posts = session.exec(select(Post).offset(offset).limit(limit)).all()
+    try:
+        posts = get_posts(session, offset, limit)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     return posts
 
 
