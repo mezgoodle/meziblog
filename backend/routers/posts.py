@@ -1,11 +1,17 @@
-from datetime import datetime
 from typing import List
 
 from fastapi import APIRouter, HTTPException, Query, Depends, status
-from sqlmodel import Session, select
+from sqlmodel import Session
 
 from database import Post, PostCreate, PostRead, PostUpdate, get_session, UserRead
 from oauth import get_current_user
+from crud.operations import (
+    get_objects,
+    get_object,
+    create_object,
+    patch_object,
+    delete_object,
+)
 
 
 router = APIRouter(
@@ -21,14 +27,11 @@ async def create_post(
     post: PostCreate,
     user: UserRead = Depends(get_current_user)
 ):
-    setattr(post, "author_name", user.name)
-    db_post = Post.from_orm(post)
-    setattr(db_post, "created_at", datetime.utcnow())
-    setattr(db_post, "updated_at", datetime.utcnow())
-    session.add(db_post)
-    session.commit()
-    session.refresh(db_post)
-    return db_post
+    try:
+        post = create_object(session, Post, post, user, True)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    return post
 
 
 @router.get("s", response_model=List[PostRead], status_code=status.HTTP_200_OK)
@@ -38,13 +41,16 @@ async def read_posts(
     offset: int = 0,
     limit: int = Query(default=100, lte=100)
 ):
-    posts = session.exec(select(Post).offset(offset).limit(limit)).all()
+    try:
+        posts = get_objects(session, Post, offset, limit)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     return posts
 
 
 @router.get("/{post_id}", response_model=PostRead, status_code=status.HTTP_200_OK)
 async def read_post(*, session: Session = Depends(get_session), post_id: int):
-    post = session.get(Post, post_id)
+    post = get_object(session, Post, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     return post
@@ -60,19 +66,17 @@ async def update_post(
     post: PostUpdate,
     current_user=Depends(get_current_user)
 ):
-    db_post = session.get(Post, post_id)
+    db_post = get_object(session, Post, post_id)
     if not db_post:
         raise HTTPException(status_code=404, detail="Post not found")
     post_data = post.dict(exclude_unset=True)
     if current_user.name != db_post.author_name:
         raise HTTPException(status_code=403, detail="Forbidden")
-    for key, value in post_data.items():
-        setattr(db_post, key, value)
-    setattr(db_post, "updated_at", datetime.utcnow())
-    session.add(db_post)
-    session.commit()
-    session.refresh(db_post)
-    return db_post
+    try:
+        post = patch_object(session, db_post, post_data, True)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    return post
 
 
 @router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -82,11 +86,13 @@ async def delete_post(
     post_id: int,
     current_user=Depends(get_current_user)
 ):
-    post = session.get(Post, post_id)
+    post = get_object(session, Post, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     if current_user.name != post.author_name:
         raise HTTPException(status_code=403, detail="Forbidden")
-    session.delete(post)
-    session.commit()
-    return {"ok": True}
+    try:
+        result = delete_object(session, post)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    return result
