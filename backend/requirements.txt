@@ -14,7 +14,7 @@ greenlet==1.1.2
 h11==0.13.0
 httptools==0.2.0
 idna==3.3
-itsdangerous==2.1.0
+itsdangerous==2.1.2
 Jinja2==3.0.3
 MarkupSafe==2.1.1
 orjson==3.6.7
